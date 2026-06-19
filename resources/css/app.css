@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom font theme (optional, pakai CSS normal aja) */
+:root {
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 
+               'Apple Color Emoji', 'Segoe UI Emoji', 
+               'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Custom style tambahan */ 
+body {
+  font-family: var(--font-sans);
+}
+

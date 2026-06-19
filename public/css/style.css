@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fffaf0;
+  color: #2b2b2b;
+}
+.header {
+  background: #10243b;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+.hero {
+  background-image: url('../images/hero.jpg');
+  height: 70vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
