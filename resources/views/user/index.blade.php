@@ -354,7 +354,7 @@
                     
                     <!-- Kotak Alert dihapus, diganti Pop Up SweetAlert -->
 
-                    <form action="{{ route('kirim-review', [], false) }}" method="POST">
+                    <form id="reviewForm" action="{{ route('kirim-review', [], false) }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -378,7 +378,7 @@
                             <textarea name="pesan" rows="3" class="form-control-custom" required placeholder="Ceritakan bagaimana rasanya..."></textarea>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn-custom w-100">Kirim Ulasan</button>
+                            <button type="submit" id="btnSubmitReview" class="btn-custom w-100">Kirim Ulasan</button>
                         </div>
                     </form>
                 </div>
@@ -418,24 +418,77 @@
     easing: 'ease-out-cubic',
   });
 
-  // 2. Logic Pop Up Review
+  // 2. Logic Submit Review via AJAX (Mencegah mixed-content / insecure warning)
+  const reviewForm = document.getElementById('reviewForm');
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('btnSubmitReview');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Mengirim...</span>';
+
+      try {
+        const formData = new FormData(this);
+        const response = await fetch(this.action, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: data.message || 'Terima kasih! Review kamu akan tampil setelah disetujui admin.',
+            confirmButtonText: 'Oke',
+            timer: 4000,
+            timerProgressBar: true
+          });
+          reviewForm.reset();
+        } else {
+          let errorMsg = data.message || 'Gagal mengirim ulasan.';
+          if (data.errors) {
+            errorMsg = Object.values(data.errors).flat().join('<br>');
+          }
+          Swal.fire({
+            icon: 'warning',
+            title: 'Perhatian',
+            html: errorMsg,
+            confirmButtonText: 'Tutup'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Terjadi Kesalahan',
+          text: 'Gagal mengirim ulasan. Silakan coba beberapa saat lagi.',
+          confirmButtonText: 'Tutup'
+        });
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    });
+  }
+
+  // 3. Fallback jika ada session flash
   @if(session('success'))
-    // Step A: Tampilkan Pop Up
     Swal.fire({
       icon: 'success',
       title: 'Berhasil!',
-      text: 'Terimakasih review telah terkirim.', // Pesan di-hardcode sesuai request
+      text: '{{ session("success") }}',
       confirmButtonText: 'Oke',
       timer: 4000,
       timerProgressBar: true
-    });
-
-    // Step B: Paksa layar kembali ke bagian #review agar tidak lompat ke atas
-    document.addEventListener("DOMContentLoaded", function() {
-        const reviewSection = document.getElementById('review');
-        if(reviewSection) {
-            reviewSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
     });
   @endif
 </script>

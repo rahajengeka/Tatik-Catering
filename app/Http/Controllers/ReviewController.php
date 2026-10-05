@@ -16,26 +16,40 @@ class ReviewController extends Controller
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $seconds = RateLimiter::availableIn($key);
 
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => "Terlalu cepat mengirim ulasan. Coba lagi dalam {$seconds} detik."
+                ], 429);
+            }
+
             return back()->with(
                 'error',
                 "Terlalu cepat mengirim ulasan. Coba lagi dalam {$seconds} detik."
             );
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'nama'   => 'required|string|max:100',
             'rating' => 'required|integer|between:1,5',
             'pesan'  => 'required|string|max:1000',
         ]);
 
         Review::create([
-            'nama_pelanggan' => $request->nama,
-            'bintang'        => $request->rating,
-            'komentar'       => $request->pesan,
+            'nama_pelanggan' => $validated['nama'],
+            'bintang'        => $validated['rating'],
+            'komentar'       => $validated['pesan'],
             'is_visible'     => false, // ❗ default hidden
         ]);
 
         RateLimiter::hit($key, 60);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Terima kasih! Review kamu akan tampil setelah disetujui admin.'
+            ]);
+        }
 
         return back()->with(
             'success',
