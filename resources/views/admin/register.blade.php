@@ -67,8 +67,7 @@
                     </div>
                 </div>
 
-                <!-- FORM (INI YANG DIPERBAIKI) -->
-                <form method="POST" action="{{ route('admin.register') }}">
+                <form method="POST" action="{{ route('admin.register', [], false) }}">
                     @csrf
 
                     <!-- Error Messages -->

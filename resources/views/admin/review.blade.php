@@ -85,7 +85,7 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <form action="{{ route('admin.logout') }}" method="POST">
+            <form action="{{ route('admin.logout', [], false) }}" method="POST">
                 @csrf
                 <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg font-medium">
                     <i class="fas fa-sign-out-alt"></i>
@@ -187,18 +187,18 @@
 
                             <div class="flex gap-2">
                                 <!-- Toggle Visibility Form -->
-                                <form action="{{ route('admin.reviews.toggle', $r) }}" method="POST">
+                                <form action="{{ route('admin.reviews.toggle', $r, false) }}" method="POST">
                                     @csrf @method('PUT')
                                     <button type="submit" 
                                             class="p-2 rounded-lg text-sm border 
                                             {{ $r->is_visible ? 'border-gray-200 text-gray-500 hover:bg-gray-100' : 'border-green-200 text-green-600 bg-green-50 hover:bg-green-100' }}"
                                             title="{{ $r->is_visible ? 'Sembunyikan' : 'Tampilkan' }}">
-                                        <i class="fas {{ $r->is_visible ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                                         <i class="fas {{ $r->is_visible ? 'fa-eye-slash' : 'fa-eye' }}"></i>
                                     </button>
                                 </form>
 
                                 <!-- Delete Form -->
-                                <form action="{{ route('admin.reviews.destroy', $r) }}" method="POST" onsubmit="return confirm('Yakin hapus review ini permanen?')">
+                                <form action="{{ route('admin.reviews.destroy', $r, false) }}" method="POST" onsubmit="return confirm('Yakin hapus review ini permanen?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 hover:text-red-600" title="Hapus Permanen">
                                         <i class="fas fa-trash-alt"></i>

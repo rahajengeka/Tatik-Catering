@@ -31,7 +31,7 @@
         </nav>
     </div>
     <div class="p-8">
-        <form action="{{ route('admin.logout') }}" method="POST">
+        <form action="{{ route('admin.logout', [], false) }}" method="POST">
             @csrf 
             <button type="submit" class="w-full flex items-center justify-between text-lg text-gray-800 hover:text-red-600 font-medium group transition">
                 <span>Log Out</span>

@@ -103,7 +103,7 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <form action="{{ route('admin.logout') }}" method="POST">
+            <form action="{{ route('admin.logout', [], false) }}" method="POST">
                 @csrf
                 <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg font-medium">
                     <i class="fas fa-sign-out-alt"></i>
@@ -158,7 +158,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('admin.promo.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.promo.store', [], false) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid md:grid-cols-2 gap-6">
                         
@@ -267,7 +267,7 @@
                             <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-50">
                                 
                                 <!-- Toggle Active -->
-                                <form action="{{ route('admin.promo.toggle', $p) }}" method="POST">
+                                <form action="{{ route('admin.promo.toggle', $p->id_promo, false) }}" method="POST">
                                     @csrf @method('PATCH')
                                     <button type="submit" 
                                             class="px-4 py-2 rounded-lg text-sm font-medium border transition-colors
@@ -290,7 +290,7 @@
                                 </button>
 
                                 <!-- Delete Button -->
-                                <form action="{{ route('admin.promo.destroy', $p) }}" method="POST" onsubmit="return confirm('Hapus promo ini?')">
+                                <form action="{{ route('admin.promo.destroy', $p->id_promo, false) }}" method="POST" onsubmit="return confirm('Hapus promo ini?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="px-4 py-2 rounded-lg border border-red-200 text-red-600 bg-red-50 hover:bg-red-100 text-sm font-medium flex items-center gap-2">
                                         <i class="fas fa-trash"></i> Hapus

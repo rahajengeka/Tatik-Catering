@@ -100,7 +100,7 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <form action="{{ route('admin.logout') }}" method="POST">
+            <form action="{{ route('admin.logout', [], false) }}" method="POST">
                 @csrf
                 <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg font-medium">
                     <i class="fas fa-sign-out-alt"></i>
@@ -153,7 +153,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('admin.menu.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.menu.store', [], false) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
@@ -212,10 +212,10 @@
                             <p class="text-sm text-gray-500 line-clamp-2 mb-4 flex-1">{{ $m->deskripsi }}</p>
 
                             <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                                <form action="{{ route('admin.menu.toggle', $m) }}" method="POST">
+                                <form action="{{ route('admin.menu.toggle', $m, false) }}" method="POST">
                                     @csrf @method('PATCH')
                                     <button type="submit" class="text-xs font-bold uppercase tracking-wider {{ $m->is_active ? 'text-gray-400 hover:text-gray-600' : 'text-green-600 hover:text-green-800' }}">
-                                        {{ $m->is_active ? 'Sembunyikan' : 'Tampilkan' }}
+                                         {{ $m->is_active ? 'Sembunyikan' : 'Tampilkan' }}
                                     </button>
                                 </form>
                                 <div class="flex gap-2">
@@ -229,7 +229,7 @@
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <form action="{{ route('admin.menu.destroy', $m) }}" method="POST" onsubmit="return confirm('Hapus permanen?')">
+                                    <form action="{{ route('admin.menu.destroy', $m, false) }}" method="POST" onsubmit="return confirm('Hapus permanen?')">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
                                             <i class="fas fa-trash"></i>

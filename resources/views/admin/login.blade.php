@@ -76,8 +76,7 @@
                     </div>
                 </div>
 
-                <!-- YANG SALAH DI SINI → DIPERBAIKI -->
-                <form method="POST" action="{{ route('admin.login') }}">
+                <form method="POST" action="{{ route('admin.login', [], false) }}">
                     @csrf
 
                     <!-- ALERT SUKSES -->
