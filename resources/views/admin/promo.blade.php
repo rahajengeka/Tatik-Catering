@@ -278,7 +278,7 @@
 
                                 <!-- Edit Button -->
                                 <button onclick="openEditModal(this)"
-                                    data-id="{{ $p->id }}"
+                                    data-id="{{ $p->id_promo }}"
                                     data-judul="{{ htmlspecialchars($p->judul_promo) }}"
                                     data-diskon="{{ $p->diskon_persen }}"
                                     data-mulai="{{ $p->tanggal_mulai->format('Y-m-d') }}"

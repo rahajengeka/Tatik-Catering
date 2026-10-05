@@ -46,6 +46,41 @@ class PromoAdminController extends Controller
             ->with('success', 'Promo berhasil ditambahkan!');
     }
 
+    // UPDATE PROMO
+    public function update(Request $request, Promo $promo)
+    {
+        $request->validate([
+            'judul_promo'     => 'required|string|max:255',
+            'diskon_persen'   => 'required|integer|min:1|max:100',
+            'tanggal_mulai'   => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'deskripsi'       => 'required|string',
+            'gambar'          => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
+
+        $data = [
+            'judul_promo'     => $request->judul_promo,
+            'diskon_persen'   => $request->diskon_persen,
+            'tanggal_mulai'   => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
+            'deskripsi'       => $request->deskripsi,
+        ];
+
+        if ($request->hasFile('gambar')) {
+            if ($promo->gambar && Storage::disk('public')->exists('promos/' . $promo->gambar)) {
+                Storage::disk('public')->delete('promos/' . $promo->gambar);
+            }
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('promos', $filename, 'public');
+            $data['gambar'] = $filename;
+        }
+
+        $promo->update($data);
+
+        return redirect()->route('admin.promo')->with('success', 'Promo berhasil diupdate!');
+    }
+
     // TOGGLE STATUS — LANGSUNG REFRESH HALAMAN
     public function toggle(Promo $promo)
     {

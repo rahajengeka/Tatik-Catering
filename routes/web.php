@@ -72,14 +72,10 @@ Route::prefix('admin')
     Route::put('/reviews/{review}/toggle', [ReviewAdminController::class, 'toggle'])->name('reviews.toggle');
     Route::delete('/reviews/{review}', [ReviewAdminController::class, 'destroy'])->name('reviews.destroy');
 
-    // PROMO MANAGEMENT — SUDAH 100% BENAR & FIX!
+    // PROMO MANAGEMENT
     Route::get('/promo', [PromoAdminController::class, 'index'])->name('promo');
     Route::post('/promo', [PromoAdminController::class, 'store'])->name('promo.store');
-    
-    // PAKAI {id} — BUKAN {promo} → INI YANG BIKIN ERROR DARI TADI!
-    Route::patch('/promo/{promo}/toggle', [PromoAdminController::class, 'toggle'])
-    ->name('promo.toggle');
-
-Route::delete('/promo/{promo}', [PromoAdminController::class, 'destroy'])
-    ->name('promo.destroy');
+    Route::put('/promo/{promo}', [PromoAdminController::class, 'update'])->name('promo.update');
+    Route::patch('/promo/{promo}/toggle', [PromoAdminController::class, 'toggle'])->name('promo.toggle');
+    Route::delete('/promo/{promo}', [PromoAdminController::class, 'destroy'])->name('promo.destroy');
 });
