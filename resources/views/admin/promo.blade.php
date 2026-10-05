@@ -449,8 +449,8 @@
                     if (cropper) cropper.destroy();
 
                     cropper = new Cropper(imageToCrop, {
-                        aspectRatio: 16 / 9, // Rasio Landscape (Cocok untuk Banner Promo)
-                        viewMode: 2,
+                        aspectRatio: NaN, // Bebas (bisa Portrait, Square, maupun Landscape)
+                        viewMode: 1,
                         autoCropArea: 1,
                     });
                 };
@@ -460,7 +460,7 @@
 
         document.getElementById('btnCrop').addEventListener('click', function () {
             if (!cropper) return;
-            const canvas = cropper.getCroppedCanvas({ width: 800, height: 450 }); // Resize
+            const canvas = cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }); // Kualitas jernih dinamis
 
             canvas.toBlob(function (blob) {
                 const newFile = new File([blob], "cropped_promo.jpg", { type: "image/jpeg" });

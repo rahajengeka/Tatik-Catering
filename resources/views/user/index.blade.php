@@ -223,13 +223,13 @@
 <section class="section-padding" style="background: linear-gradient(135deg, #fff8e8 0%, #fff 100%); overflow: hidden;">
     <div class="container">
         <div class="card-modern mx-auto" style="max-width: 1000px;" data-aos="zoom-in" data-aos-duration="1000">
-            <div class="row g-0 align-items-center">
+            <div class="row g-0 align-items-stretch">
                 
-                <div class="col-md-5">
-                    <div style="height: 100%; min-height: 450px; overflow: hidden;">
+                <div class="col-md-5 d-flex position-relative">
+                    <div class="w-100 h-100" style="min-height: 380px; overflow: hidden;">
                         <img src="{{ asset('storage/promos/' . $promo->gambar) }}" 
                              alt="{{ $promo->judul_promo }}" 
-                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s hover:scale-110;">
+                             style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.5s ease;">
                     </div>
                 </div>
 

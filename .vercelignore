@@ -1,0 +1,8 @@
+.git
+.github
+node_modules
+tests
+phpunit.xml
+README.md
+.editorconfig
+.gitattributes
